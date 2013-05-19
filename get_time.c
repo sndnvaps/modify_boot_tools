@@ -16,7 +16,6 @@
 #define MAX_LENTH 1024
 
 char *get_time(void) {
-	char time_ptr[MAX_LENTH];
 	time_t timep;
 	struct tm *time_tm;
 	struct stat st;

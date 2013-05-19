@@ -146,8 +146,8 @@ static const struct android_id_info android_ids[] = {
     
 struct fs_path_config {
     unsigned mode;
-    unsigned uid;
-    unsigned gid;
+    uid_t uid;
+    gid_t gid;
     const char *prefix;
 };
 
@@ -231,7 +231,7 @@ static struct fs_path_config android_files[] = {
 };
 
 static inline void fs_config(const char *path, int dir,
-                             unsigned *uid, unsigned *gid, unsigned *mode)
+                             uid_t *uid, gid_t *gid, unsigned *mode)
 {
     struct fs_path_config *pc;
     int plen;

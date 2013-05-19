@@ -4,6 +4,7 @@
 
 //get_time.c 
 //char *get_time(void) 
+char time_ptr[1024];
 char *get_time(void);
 
 #endif

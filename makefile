@@ -47,9 +47,9 @@ lib:libmincrypt.a
 libmincrypt.a:$(LIBMINCRYPT_OBJ)
 	$(AR) -r $(STATIC_LIB) $(LIBMINCRYPT_OBJ) 
 sha.o:$(SHA_SRC)
-	$(CC) -c -fPIC $<
+	$(CC) -c  $<
 rsa.o:$(RSA_SRC)
-	$(CC) -c -fPIC $<
+	$(CC) -c  $<
 
 
 
