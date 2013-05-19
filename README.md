@@ -14,24 +14,50 @@ include src files
 
 #split it from the Android source code by sndnvaps @Gaojiquan 
 ##it include the flow applications:
-    <pre>
-      <code>
+
+<pre>
+  <code>
          mkbootfs 
          mkbootimg 
          unpackbootimg 
-       </code>
-    </pre>
+   </code>
+</pre>
 ##it include the flow static library 
-     <pre>
-        <code>
+
+  <pre>
+   <code>
           libmincrypt.a
-          </code>
-     </pre>
+   </code>
+  </pre>
 
 ##add get_time() to the applications 
 
 ##modify data: 2013-05-19
 
+##download it:
+ 
+###use git to get it && build 
+   
+  <pre>
+   <code>
+    git clone https://github.com/sndnvaps/modify_boot_tools -b master 
+    cd modify_boot_tools
+    make 
+   </code>
+  </pre>
+
+###download it as zip file
+
+  [click it ](https://codeload.github.com/sndnvaps/modify_boot_tools/zip/master)
+  <code>
+   unzip the zip ball && cd modify_boot_tools && make
+  <code>
+   
+
+  
+
 #LICENSE: 
-    BSD 
+
+   [BSD LICENSE](https://github.com/sndnvaps/modify_boot_tools/blob/master/LICENSE.md)
+   
 
