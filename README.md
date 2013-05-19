@@ -48,7 +48,8 @@ include src files
 
 ###download it as zip file
 
-  [click it ](https://codeload.github.com/sndnvaps/modify_boot_tools/zip/master)
+  [click it to get the zip file ](https://codeload.github.com/sndnvaps/modify_boot_tools/zip/master)
+
   <code>
    unzip the zip ball && cd modify_boot_tools && make
   <code>
