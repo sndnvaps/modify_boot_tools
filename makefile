@@ -54,5 +54,5 @@ rsa.o:$(RSA_SRC)
 
 
 clean:
-	rm -f mkbootfs mkbootimg unpackbootimg $(MKBOOTIMG_OBJ)  $(UNPACKBOOTIMG_OBJ) $(LIBMINCRYPT_OBJ) $(STATIC_LIB) $(MKBOOTFS_OBJ) *.a *.o 
+	rm -f mkbootfs mkbootimg unpackbootimg $(MKBOOTIMG_OBJ)  $(UNPACKBOOTIMG_OBJ) $(LIBMINCRYPT_OBJ) $(STATIC_LIB) $(MKBOOTFS_OBJ) *.a *.o *~ 
 

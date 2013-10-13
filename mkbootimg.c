@@ -64,7 +64,7 @@ int usage(void)
 	time_ptr = get_time();
 	char *str = malloc(sizeof(char*) * 2048);
 
-	snprintf(str, 2048,"  mkbootimg compile at -> %s \n      usage: mkbootimg\n       --kernel <filename>\n              --ramdisk <filename>\n      [ --second <2ndbootloader-filename> ]\n      [ --cmdline <kernel-commandline> ]\n      [ --board <boardname> ]\n      [ --base <address> ]\n      [ --pagesize <pagesize> ]\n      [ --ramdiskaddr <address> ]\n      -o|--output <filename>\n     example:mkbootimg --kernel zImage --ramdisk boot-ramdisk.gz --cmdline 'androidboot.hardware=roamer console=null' --base 0x02600000 --pagesize 2048 -o boot-new.img \n",time_ptr);
+	snprintf(str, 2048,"  Date: -> %s \n      usage: mkbootimg\n       --kernel <filename>\n              --ramdisk <filename>\n      [ --second <2ndbootloader-filename> ]\n      [ --cmdline <kernel-commandline> ]\n      [ --board <boardname> ]\n      [ --base <address> ]\n      [ --pagesize <pagesize> ]\n      [ --ramdiskaddr <address> ]\n      [ --dt <filenme> ]\n    -o|--output <filename>\n     example:mkbootimg --kernel zImage --ramdisk boot-ramdisk.gz --cmdline 'androidboot.hardware=roamer console=null' --base 0x02600000 --pagesize 2048 -o boot-new.img \n",time_ptr);
 			printf("%s",str);
     return 1;
 }
@@ -104,6 +104,8 @@ int main(int argc, char **argv)
     char *cmdline = "";
     char *bootimg = 0;
     char *board = "";
+    char *dt_fn = 0;
+    void *dt_data = 0;
     unsigned pagesize = 2048;
     int fd;
     SHA_CTX ctx;
@@ -154,6 +156,9 @@ int main(int argc, char **argv)
                 fprintf(stderr,"error: unsupported page size %d\n", pagesize);
                 return -1;
             }
+	} else if (!strcmp(arg, "--dt")) {
+		dt_fn = val;
+
         } else {
             return usage();
         }
@@ -216,6 +221,15 @@ int main(int argc, char **argv)
         }
     }
 
+    if (dt_fn) {
+	    dt_data = load_file(dt_fn, &hdr.dt_size);
+	    if (dt_data == 0) {
+		    fprintf(stderr, "error: could not load device tree image '%s'\n", dt_fn);
+		    return 1;
+	    }
+    }
+
+
     /* put a hash of the contents in the header so boot images can be
      * differentiated based on their first 2k.
      */
@@ -226,6 +240,10 @@ int main(int argc, char **argv)
     SHA_update(&ctx, &hdr.ramdisk_size, (int)sizeof(hdr.ramdisk_size));
     SHA_update(&ctx, second_data, (int)hdr.second_size);
     SHA_update(&ctx, &hdr.second_size, (int)sizeof(hdr.second_size));
+    if (dt_data) {
+	    SHA_update(&ctx, dt_data, hdr.dt_size);
+	    SHA_update(&ctx, &hdr.dt_size, sizeof(hdr.dt_size));
+    }
     sha = SHA_final(&ctx);
     memcpy(hdr.id, sha,
            SHA_DIGEST_SIZE > sizeof(hdr.id) ? sizeof(hdr.id) : SHA_DIGEST_SIZE);
@@ -248,6 +266,11 @@ int main(int argc, char **argv)
     if(second_data) {
         if(write(fd, second_data, hdr.second_size) != (signed)hdr.second_size) goto fail;
         if(write_padding(fd, pagesize, hdr.ramdisk_size)) goto fail;
+    }
+
+    if (dt_data) {
+	    if (write(fd, dt_data, hdr.dt_size) != hdr.dt_size) goto fail;
+	    if (write_padding(fd, pagesize, hdr.dt_size)) goto fail;
     }
 
     return 0;

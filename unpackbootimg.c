@@ -44,7 +44,7 @@ void write_string_to_file(char* file, char* string)
 int usage() {
 	char *time_ptr = malloc(sizeof(char*) * 1024);
 	//time_ptr = get_time();
-	snprintf(time_ptr, 1024, "unpackbootimg compile at -> %s\n",get_time());
+	snprintf(time_ptr, 1024, "Date: -> %s\n",get_time());
     printf(time_ptr);
     printf("       usage: unpackbootimg\n");
     printf("\t-i|--input boot.img\n");
