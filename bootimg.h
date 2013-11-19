@@ -24,6 +24,7 @@ typedef struct boot_img_hdr boot_img_hdr;
 #define BOOT_MAGIC_SIZE 8
 #define BOOT_NAME_SIZE 16
 #define BOOT_ARGS_SIZE 512
+#define BOOT_EXTRA_ARGS_SIZE 1024
 
 struct boot_img_hdr
 {
@@ -48,6 +49,10 @@ struct boot_img_hdr
     unsigned char cmdline[BOOT_ARGS_SIZE];
 
     unsigned id[8]; /* timestamp / checksum / sha1 / etc */
+     /* Supplemental command line data; kept here to maintain
+      * binary compatibility with older versions of mkbootimg */
+    unsigned char extra_cmdline[BOOT_EXTRA_ARGS_SIZE];
+    
 };
 
 /*
